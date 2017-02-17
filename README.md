@@ -14,7 +14,7 @@ You have to create a aux.py like this:
 ```python
 fromaddr = 'from@server.com'
 toaddrs  = 'to@server.com'
-pas = 'password'
+pas = 'password of fromaddr'
 ```
 
 ### Create cron tasks:
@@ -25,7 +25,7 @@ pas = 'password'
 crontab -e
 ```
 
-- Select your text editor if is your fisrt time
+- Select your text editor if is your fisrt time using cron
 
 - Add this lines:
 
