@@ -11,10 +11,11 @@ f = open('/var/log/auth.log', 'r')
 
 text=""
 for line in f:
- if "password" in line or "AllowUsers" in line or "invalid user" in line:
-  if " "+str(int(time.strftime("%d"))-1)+" " in line:
+ if "Failed password" in line or "AllowUsers" in line or "invalid user" in line:
+  if " "+str(time.strftime("%d"))+" " in line:
    if dt.datetime.now().strftime("%B")[0:3] in line:
-    text += line+"\n
+    if " "+str(int(time.strftime("%H"))-1)+":" in line:
+     text += line+"\n"
     
 ########
 # ENVIO
@@ -26,9 +27,9 @@ if text=="":
 msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
-  "Subject: SSH-Alert: Day report " + str(int(time.strftime("%d"))-1) + time.strftime("/%m/%Y"),
+  "Subject: SSH-Alert: !! " + str(int(time.strftime("%H"))-1) +"h - "+ str(time.strftime("%d")) + time.strftime("/%m/%Y"),
   "",
-  text + "--\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert
+  text + "--\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert"
   ])
   
 smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
