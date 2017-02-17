@@ -20,10 +20,13 @@ for line in f:
 # ENVIO
 ########
 
+if text=="":
+ exit() #Today nothing happend
+
 msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
-  "Subject: SSH-Alert: "+ time.strftime("%d/%m/%Y"),
+  "Subject: SSH-Alert: " + str(int(time.strftime("%d"))-1) + time.strftime("/%m/%Y"),
   "",
   text
   ])
