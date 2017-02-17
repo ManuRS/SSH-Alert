@@ -23,13 +23,15 @@ for line in f:
 
 if text=="":
  exit() #Today nothing happend
+ 
+subj= str(int(time.strftime("%H"))-1) +"h - "+ str(time.strftime("%d")) + time.strftime("/%m/%Y")
 
 msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
-  "Subject: SSH-Alert: !! " + str(int(time.strftime("%H"))-1) +"h - "+ str(time.strftime("%d")) + time.strftime("/%m/%Y"),
+  "Subject: SSH-Alert: !! "+subj,
   "",
-  text + "--\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert"
+  subj +"\n====\n\n"+ text + "====\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert"
   ])
   
 smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
