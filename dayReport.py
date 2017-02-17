@@ -31,7 +31,7 @@ msg = "\r\n".join([
   text
   ])
   
-smtp = 'smtp.gmail.com:587'
+smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
   
 server = smtplib.SMTP(smtp)
 server.ehlo()
