@@ -19,9 +19,11 @@ pas = 'password'
 
 ### Create cron tasks:
 
-Open a terminal and write:
+- Open a terminal and write:
 
+```
 crontab -e
+```
 
 - Select your text editor if is your fisrt time
 
