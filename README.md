@@ -6,5 +6,5 @@ Create a cron task:
 
 crontab -e
 
-13 19 * * * python3 /route/dayReport.py
+06 00 * * * python3 /route/dayReport.py
 
