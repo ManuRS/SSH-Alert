@@ -8,7 +8,6 @@ import aux
 ########
 
 f = open('/var/log/auth.log', 'r')
-#print (f.read())
 
 text=""
 for line in f:
@@ -16,8 +15,6 @@ for line in f:
   if " "+str(int(time.strftime("%d"))-1)+" " in line:
    if dt.datetime.now().strftime("%B")[0:3] in line:
     text += line
-    
-#print (text)
     
 ########
 # ENVIO
@@ -31,11 +28,11 @@ msg = "\r\n".join([
   text
   ])
   
-server = smtplib.SMTP('smtp.gmail.com:587')
+smtp = 'smtp.gmail.com:587'
+  
+server = smtplib.SMTP(smtp)
 server.ehlo()
 server.starttls()
 server.login(aux.fromaddr,aux.pas)
 server.sendmail(aux.fromaddr, aux.toaddrs, msg)
 server.quit()
-   
-
