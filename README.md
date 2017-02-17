@@ -7,9 +7,6 @@ Report of the day
 ## alert.py
 If something strange happend last hour you will recive an email
 
-## dayReport.py
-Resumen of the day
-
 ## Intructions
 
 You have to create a aux.py like this:
@@ -22,8 +19,15 @@ pas = 'password'
 
 ### Create cron tasks:
 
+Open a terminal and write:
+
 crontab -e
 
-06 00 * * * python3 /route/dayReport.py
+- Select your text editor if is your fisrt time
 
+- Add this lines:
+
+```
+06 00 * * * python3 /route/dayReport.py
 02 * * * * python3 /route/alert.py
+```
