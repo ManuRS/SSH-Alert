@@ -11,7 +11,7 @@ f = open('/var/log/auth.log', 'r')
 
 text=""
 for line in f:
- if "Failed password" in line or "AllowUsers" in line or "invalid user" in line:
+ if "Failed password" in line:
   if " "+str(time.strftime("%d"))+" " in line:
    if dt.datetime.now().strftime("%B")[0:3] in line:
     if " "+str(int(time.strftime("%H"))-1)+":" in line:
