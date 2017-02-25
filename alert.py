@@ -55,7 +55,7 @@ subj= h +"h - "+ str(d) + time.strftime("/%m/%Y")
 text = text.replace("\n", "<br>")
 text2 = text2.replace("\n", "<br>")
 
-start = "<b>"+subj+"<br>==================<br><br></b>"
+start = "<b>"+subj+"<br>=============<br><br></b>"
 end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
 
 if text!="":
