@@ -1,7 +1,7 @@
 import time
-import datetime as dt
 import smtplib
 import aux
+import getDates as gd
 
 ########
 # PARSEO
@@ -11,34 +11,38 @@ f = open('/var/log/auth.log', 'r')
 f2 = open('/var/log/auth.log', 'r')
 
 if time.strftime("%H")=='00':
- h="23"
+ #Situacion especial, la hora no se puede restar y hay que calcular el dia de ayer
+ h = "23"
+ d, m, y = gd.getYesterday()
 else:
- h=str(int(time.strftime("%H"))-1)
+ #Situacion normal, restamos uno a la hora y el dia se obtiene correctamente
+ h = str(int(time.strftime("%H"))-1)
+ d = int(time.strftime("%d"))
+ m = time.strftime("%B")[0:3]
+ y = int(time.strftime("%Y"))
 
 text=""
 for line in f:
  if "Failed password" in line:
-  if " "+str(time.strftime("%d"))+" " in line:
-   if dt.datetime.now().strftime("%B")[0:3] in line:
+  if " " + str(d) + " " in line:
+   if m in line:
     if h+":" in line:
      text += line+"\n"
 
 text2=""
 for line in f2:
  if "terminating" in line or "Server listening" in line:
-  if " "+str(time.strftime("%d"))+" " in line:
-   if dt.datetime.now().strftime("%B")[0:3] in line:
+  if " " + str(d) + " " in line:
+   if m in line:
     if h+":" in line:
      text2 += line+"\n"
     
 ########
-# ENVIO
+#  ENVIO
 ########
 
 if text=="" and text2=="":
  exit() #Today nothing happend
-
-subj= h +"h - "+ str(time.strftime("%d")) + time.strftime("/%m/%Y")
 
 smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
 server = smtplib.SMTP(smtp)
@@ -46,13 +50,23 @@ server.ehlo()
 server.starttls()
 server.login(aux.fromaddr,aux.pas)
 
+subj= h +"h - "+ str(d) + time.strftime("/%m/%Y")
+
+text = text.replace("\n", "<br>")
+text2 = text2.replace("\n", "<br>")
+
+start = "<b>"+subj+"<br>==================<br><br></b>"
+end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
+
 if text!="":
  msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
+  "MIME-Version: 1.0",
+  "Content-type: text/html",
   "Subject: SSH-Alert: Failed password "+subj,
   "",
-  subj +"\n====\n\n"+ text + "====\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert"
+  start + text + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
  
@@ -61,9 +75,11 @@ if text2!="":
  msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
-  "Subject: SSH-Alert: Reset "+subj,
+  "MIME-Version: 1.0",
+  "Content-type: text/html",
+  "Subject: SSH-Alert: Reset server "+subj,
   "",
-  subj +"\n====\n\n"+ text2 + "====\nSend using SSH-Alert:\nhttps://github.com/manurs/SHH-Alert"
+  start + text2 + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
 
