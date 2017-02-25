@@ -1,4 +1,4 @@
-# SHH-Alert
+# SSH-Alert
 Get notified via email when somehting happend in the ssh (bad pass, user not allowed)
 
 ## dayReport.py
@@ -22,7 +22,7 @@ pas = 'password of fromaddr'
 - Open a terminal and write:
 
 ```
-crontab -e
+sudo crontab -e
 ```
 
 - Select your text editor if is your fisrt time using cron
