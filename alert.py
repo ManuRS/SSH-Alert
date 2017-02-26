@@ -2,6 +2,13 @@ import time
 import smtplib
 import aux
 import getDates as gd
+import os
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email import encoders
+from email.utils import COMMASPACE, formatdate
+
 
 ########
 # PARSEO
@@ -20,7 +27,7 @@ else:
  if len(h)==1:
   h = "0"+h
  d = int(time.strftime("%d"))
- m = time.strftime("%B")[0:3]
+ m = time.strftime("%b")
  y = int(time.strftime("%Y"))
 
 text=""
@@ -53,7 +60,8 @@ subj= h +"h - "+ str(d) + time.strftime("/%m/%Y")
 text = text.replace("\n", "<br>")
 text2 = text2.replace("\n", "<br>")
 
-start = "<b>"+subj+"<br>=============<br><br></b>"
+start = subj+"<br>============================<br><br></b>"
+start2 = subj+"<br>=========================<br><br></b>"
 end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
 
 if text!="":
@@ -64,21 +72,26 @@ if text!="":
   "Content-type: text/html",
   "Subject: SSH-Alert: Failed password "+subj,
   "",
-  start + text + end
+  "<b>Failed password - " + start + text + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
  
  
 if text2!="":
- msg = "\r\n".join([
-  "From: " + aux.fromaddr,
-  "To: " + aux.toaddrs,
-  "MIME-Version: 1.0",
-  "Content-type: text/html",
-  "Subject: SSH-Alert: Reset server "+subj,
-  "",
-  start + text2 + end
-  ])
- server.sendmail(aux.fromaddr, aux.toaddrs, msg)
+ msg = MIMEMultipart()
+ msg['From'] = aux.fromaddr
+ msg['To'] = aux.toaddrs
+ msg['Date'] = formatdate(localtime = True)
+ msg['Subject'] = "SSH-Alert: Reset server " + subj
+
+ msg.attach( MIMEText("<b>Reset server - " + start2 + text2 + end, 'HTML') ) 
+  
+ part = MIMEBase('application', "octet-stream")
+ f="/etc/ssh/sshd_config"
+ part.set_payload( open(f,"rb").read() )
+ encoders.encode_base64(part)
+ part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(os.path.basename(f)+".txt"))
+ msg.attach(part) 
+ server.sendmail(aux.fromaddr, aux.toaddrs, msg.as_string())
 
 server.quit()
