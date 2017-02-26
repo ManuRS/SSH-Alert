@@ -17,6 +17,8 @@ if time.strftime("%H")=='00':
 else:
  #Situacion normal, restamos uno a la hora y el dia se obtiene correctamente
  h = str(int(time.strftime("%H"))-1)
+ if len(h)==1:
+  h = "0"+h
  d = int(time.strftime("%d"))
  m = time.strftime("%B")[0:3]
  y = int(time.strftime("%Y"))
@@ -24,18 +26,14 @@ else:
 text=""
 for line in f:
  if "Failed password" in line:
-  if " " + str(d) + " " in line:
-   if m in line:
-    if h+":" in line:
-     text += line+"\n"
+  if m + " " + str(d) + " " + h + ":" in line:
+   text += line+"\n"
 
 text2=""
 for line in f2:
  if "terminating" in line or "Server listening" in line:
-  if " " + str(d) + " " in line:
-   if m in line:
-    if h+":" in line:
-     text2 += line+"\n"
+  if m + " " + str(d) + " " + h + ":" in line:
+   text2 += line+"\n"
     
 ########
 #  ENVIO
@@ -55,7 +53,7 @@ subj= h +"h - "+ str(d) + time.strftime("/%m/%Y")
 text = text.replace("\n", "<br>")
 text2 = text2.replace("\n", "<br>")
 
-start = "<b>"+subj+"<br>==================<br><br></b>"
+start = "<b>"+subj+"<br>=============<br><br></b>"
 end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
 
 if text!="":
