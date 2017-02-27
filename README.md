@@ -1,4 +1,4 @@
-# SSH-Alert
+# SSH-Alert (v1.5rc)
 Get notified via email when somehting happend in the ssh (bad pass, user not allowed, reset server)
 
 ## dayReport.py
