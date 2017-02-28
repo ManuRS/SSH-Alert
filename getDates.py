@@ -24,7 +24,7 @@ def getYesterday():
     
     if day==-1:
       #Febrero tiene miga
-      if y%4==0 and y%100!=0 or y%400==0:
+      if year%4==0 and year%100!=0 or year%400==0:
         day=29 #Bisiesto
       else:
         day=28
