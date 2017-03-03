@@ -14,9 +14,9 @@ d, m, y = gd.getYesterday()
 text=""
 for line in f:
  if "sshd" in line:
-  if m + " " + str(d) + " " in line:
+  if m + " " + str(d) + " " in line or m + "  " + str(d) + " " in line :
    text += line+"\n"
-    
+   
 ########
 #  ENVIO
 ########

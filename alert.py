@@ -33,13 +33,13 @@ else:
 text=""
 for line in f:
  if "Failed password" in line:
-  if m + " " + str(d) + " " + h + ":" in line:
+  if m + " " + str(d) + " " + h + ":" in line or m + "  " + str(d) + " " + h + ":" in line:
    text += line+"\n"
 
 text2=""
 for line in f2:
  if "terminating" in line or "Server listening" in line:
-  if m + " " + str(d) + " " + h + ":" in line:
+  if m + " " + str(d) + " " + h + ":" in line or m + " " + str(d) + " " + h + ":" in line:
    text2 += line+"\n"
     
 ########
