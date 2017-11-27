@@ -13,14 +13,14 @@ def getYesterday():
     list_month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     list_num_m = [31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
-    pos_m = int(time.strftime("%m"))-1 #index by 0, no 1
+    pos_m = int(time.strftime("%m"))-1 #index como un array normal from 0, no 1
     
     if pos_m==0: #Caso especial, nos vamos al año anterior
-      pos_m=12
+      pos_m=11
       year=year-1
     
-    month = list_month[pos_m-1]
-    day = list_num_m[pos_m-1]
+    month = list_month[pos_m]
+    day = list_num_m[pos_m]
     
     if day==-1:
       #Febrero tiene miga

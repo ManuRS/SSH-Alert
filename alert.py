@@ -9,13 +9,11 @@ from email.mime.text import MIMEText
 from email import encoders
 from email.utils import COMMASPACE, formatdate
 
-
 ########
 # PARSEO
 ########
 
 f = open('/var/log/auth.log', 'r')
-f2 = open('/var/log/auth.log', 'r')
 
 if time.strftime("%H")=='00':
  #Situacion especial, la hora no se puede restar y hay que calcular el dia de ayer
@@ -30,18 +28,18 @@ else:
  m = time.strftime("%b")
  y = int(time.strftime("%Y"))
 
-text=""
+text  = ""
+text2 = ""
 for line in f:
+
  if "Failed password" in line:
   if m + " " + str(d) + " " + h + ":" in line or m + "  " + str(d) + " " + h + ":" in line:
    text += line+"\n"
 
-text2=""
-for line in f2:
  if "terminating" in line or "Server listening" in line:
   if m + " " + str(d) + " " + h + ":" in line or m + " " + str(d) + " " + h + ":" in line:
    text2 += line+"\n"
-    
+
 ########
 #  ENVIO
 ########
@@ -75,7 +73,6 @@ if text!="":
   "<b>Failed password - " + start + text + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
- 
  
 if text2!="":
  msg = MIMEMultipart()
