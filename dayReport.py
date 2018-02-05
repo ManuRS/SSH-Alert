@@ -1,7 +1,9 @@
 import time
 import smtplib
+
 import aux
 import getDates as gd
+import ipInfo
 
 ########
 # PARSEO
@@ -10,13 +12,16 @@ import getDates as gd
 f = open('/var/log/auth.log', 'r')
 
 d, m, y = gd.getYesterday()
-
+#Para pruebas
+#d = d+1
 text=""
 for line in f:
  if "sshd" in line:
   if m + " " + str(d) + " " in line or m + "  " + str(d) + " " in line :
    text += line+"\n"
    
+ip_info = ipInfo.ipInfo(text)
+
 ########
 #  ENVIO
 ########
@@ -30,8 +35,8 @@ text = text.replace("[", "<b>[")
 text = text.replace("]", "]</b>")
 text = text.replace("\n", "<br>")
 
-start = "<b>"+subj+"<br>==================<br><br></b>"
-end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
+start = "<b>==================<br>"+subj+"<br>==================<br><br></b>"
+end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>==============================</b>"
 
 msg = "\r\n".join([
   "From: " + aux.fromaddr,
@@ -40,7 +45,7 @@ msg = "\r\n".join([
   "Content-type: text/html",
   "Subject: SSH-Alert: "+subj,
   "",
-  start + text + end
+  start + text + ip_info + end
   ])
   
 smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting

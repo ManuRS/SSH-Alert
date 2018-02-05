@@ -1,13 +1,15 @@
 import time
 import smtplib
-import aux
-import getDates as gd
 import os
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email import encoders
 from email.utils import COMMASPACE, formatdate
+
+import aux
+import getDates as gd
+import ipInfo
 
 ########
 # PARSEO
@@ -22,6 +24,8 @@ if time.strftime("%H")=='00':
 else:
  #Situacion normal, restamos uno a la hora y el dia se obtiene correctamente
  h = str(int(time.strftime("%H"))-1)
+ #Para test
+ #h = str(int(time.strftime("%H"))) 
  if len(h)==1:
   h = "0"+h
  d = int(time.strftime("%d"))
@@ -39,6 +43,8 @@ for line in f:
  if "terminating" in line or "Server listening" in line:
   if m + " " + str(d) + " " + h + ":" in line or m + " " + str(d) + " " + h + ":" in line:
    text2 += line+"\n"
+
+ip_info = ipInfo.ipInfo(text+text2)
 
 ########
 #  ENVIO
@@ -60,7 +66,7 @@ text2 = text2.replace("\n", "<br>")
 
 start = subj+"<br>============================<br><br></b>"
 start2 = subj+"<br>=========================<br><br></b>"
-end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert</b>"
+end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>==============================</b>"
 
 if text!="":
  msg = "\r\n".join([
@@ -70,7 +76,7 @@ if text!="":
   "Content-type: text/html",
   "Subject: SSH-Alert: Failed password "+subj,
   "",
-  "<b>Failed password - " + start + text + end
+  "<b>============================<br>Failed password - " + start + text + ip_info + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
  
@@ -79,9 +85,9 @@ if text2!="":
  msg['From'] = aux.fromaddr
  msg['To'] = aux.toaddrs
  msg['Date'] = formatdate(localtime = True)
- msg['Subject'] = "SSH-Alert: Reset server " + subj
+ msg['Subject'] = "<b>============================<br>SSH-Alert: Reset server " + subj
 
- msg.attach( MIMEText("<b>Reset server - " + start2 + text2 + end, 'HTML') ) 
+ msg.attach( MIMEText("<b>Reset server - " + start2 + text2 + ip_info + end, 'HTML') ) 
   
  part = MIMEBase('application', "octet-stream")
  f="/etc/ssh/sshd_config"
