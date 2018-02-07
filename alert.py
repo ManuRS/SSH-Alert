@@ -41,7 +41,7 @@ for line in f:
    text += line+"\n"
 
  if "terminating" in line or "Server listening" in line:
-  if m + " " + str(d) + " " + h + ":" in line or m + " " + str(d) + " " + h + ":" in line:
+  if m + " " + str(d) + " " + h + ":" in line or m + "  " + str(d) + " " + h + ":" in line:
    text2 += line+"\n"
 
 ip_info = ipInfo.ipInfo(text+text2)
@@ -85,9 +85,9 @@ if text2!="":
  msg['From'] = aux.fromaddr
  msg['To'] = aux.toaddrs
  msg['Date'] = formatdate(localtime = True)
- msg['Subject'] = "<b>============================<br>SSH-Alert: Reset server " + subj
+ msg['Subject'] = "SSH-Alert: Reset server " + subj
 
- msg.attach( MIMEText("<b>Reset server - " + start2 + text2 + ip_info + end, 'HTML') ) 
+ msg.attach( MIMEText("<b>============================<br>Reset server - " + start2 + text2 + end, 'HTML') ) 
   
  part = MIMEBase('application', "octet-stream")
  f="/etc/ssh/sshd_config"

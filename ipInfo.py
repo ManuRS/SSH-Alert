@@ -10,16 +10,17 @@ def ipInfo(text, html=True):
   else:
   	results = 'Detected IP details:\n'
   for ip in ips:
-  	url = "http://ipinfo.io/"+ip
-  	result = requests.get(url).text
-  	result = result.replace('\n  "', '\n  ')
-  	result = result.replace('": "', ': ')
-  	result = result.replace('",\n', '\n')
-  	result = result.replace('{', '')
-  	result = result.replace('}', '')
-  	result = result.replace('"\n', '\n')
-  	if html:
-  		result = re.sub(r'(ip: '+ip_regex+')', r'<b>*********   \1   *********</b>' ,result)
-  		result = result.replace('\n', '<br>')
-  	results = results + result
+  	if ip != "0.0.0.0":
+  	  url = "http://ipinfo.io/"+ip
+  	  result = requests.get(url).text
+  	  result = result.replace('\n  "', '\n  ')
+  	  result = result.replace('": "', ': ')
+  	  result = result.replace('",\n', '\n')
+  	  result = result.replace('{', '')
+  	  result = result.replace('}', '')
+  	  result = result.replace('"\n', '\n')
+  	  if html:
+  	    result = re.sub(r'(ip: '+ip_regex+')', r'<b>*********   \1   *********</b>' ,result)
+  	    result = result.replace('\n', '<br>')
+  	  results = results + result
   return results+'<br><br>'
