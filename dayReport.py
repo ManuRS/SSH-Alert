@@ -9,7 +9,7 @@ import ipInfo
 # PARSEO
 ########
 
-f = open('/var/log/auth.log', 'r')
+f = open(aux.auth_log, 'r')
 
 d, m, y = gd.getYesterday()
 #Para pruebas
@@ -47,8 +47,6 @@ msg = "\r\n".join([
   "",
   start + text + ip_info + end
   ])
-  
-smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
   
 server = smtplib.SMTP(smtp)
 server.ehlo()
