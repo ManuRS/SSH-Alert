@@ -99,7 +99,7 @@ if text != "":
 if text2!="" or len(diff)!=0:
 
  if text2 == "":
-  text2 = "Nothing about reset on your auth_log file but changes between system_sshd_config and trusted_sshd_config.<br>Strange, looks like somebody made changes but edited the log to hide the changes. Take a look at the differences.<br><br>"
+  text2 = "Nothing about reset on your auth_log file but changes between system_sshd_config and trusted_sshd_config.<br>Strange, looks like somebody made changes but edited the log to hide the server restart. Take a look at the differences file.<br><br>"
 
  text_diff = ""
  if len(diff)==0:
