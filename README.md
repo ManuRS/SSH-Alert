@@ -46,3 +46,9 @@ sudo crontab -e
 06 00 * * * python3 /route/dayReport.py
 02 * * * * python3 /route/alert.py
 ```
+
+### Tips
+
+- If is possible don't allow root users to connect by SSH
+
+- If is possible run SSH-Alert from a user with no SSH connections allowed
