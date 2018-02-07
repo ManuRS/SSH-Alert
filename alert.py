@@ -99,11 +99,11 @@ if text != "":
 if text2!="" or len(diff)!=0:
 
  if text2 == "":
-  text2 = "Nothing about reset on your auth_log file but changes between system_sshd_config and trusted_sshd_config.<br>Strange, looks like somebody made changes but edited the log to hide the server restart. Take a look at the differences file.<br><br>"
+  text2 = "Nothing about reset on your auth_log file but changes between system_sshd_config and trusted_sshd_config detected.<br>Strange, looks like somebody made changes to the system_sshd_config file but edited the log to hide the server restart (o maybe the restart is pending).<br>Take a look at the differences file.<br><br>"
 
  text_diff = ""
  if len(diff)==0:
-  text_diff = "No changes between system_sshd_config and trusted_sshd_config but information about reset in aux_log.<br>This is normal, mean reset without changes (also somebody could had change both sshd_config).<br><br>"
+  text_diff = "No changes between system_sshd_config and trusted_sshd_config but exist information about server reset in aux_log.<br>This is normal, means reset was done without changes in the configuration (also somebody could had change both sshd_config).<br><br>"
 
  msg = MIMEMultipart()
  msg['From'] = aux.fromaddr

@@ -48,7 +48,7 @@ msg = "\r\n".join([
   start + text + ip_info + end
   ])
   
-server = smtplib.SMTP(smtp)
+server = smtplib.SMTP(aux.smtp)
 server.ehlo()
 server.starttls()
 server.login(aux.fromaddr,aux.pas)
