@@ -12,31 +12,46 @@ import ipInfo
 f = open(aux.auth_log, 'r')
 
 d, m, y = gd.getYesterday()
+
 #Para pruebas
-#d = d+1
-text=""
+#print(d,m,y)
+#d = d-1
+
+text_sshd=""
+text_user=""
 for line in f:
- if "sshd" in line:
-  if m + " " + str(d) + " " in line or m + "  " + str(d) + " " in line :
-   text += line+"\n"
+ if m + " " + str(d) + " " in line or m + "  " + str(d) + " " in line :
+  if "sshd" in line:
+   text_sshd += line+"\n"
+  if "COMMAND=" in line and not ("dayReport" in line or "alert" in line):
+   text_user += line+"\n"
    
-ip_info = ipInfo.ipInfo(text)
+ip_info = ipInfo.ipInfo(text_sshd)
 
 ########
 #  ENVIO
 ########
 
-if text=="":
+if text_sshd=="" and text_user=="":
  exit() #Today nothing happend
 
 subj = "Day report " + str(d) + time.strftime("/%m/%Y")
+end1 = "Sent using SSH-Alert:"
+end2 = "https://github.com/manurs/SSH-Alert"
 
-text = text.replace("[", "<b>[")
-text = text.replace("]", "]</b>")
-text = text.replace("\n", "<br>")
+text_sshd = text_sshd.replace("[", "<b>[")
+text_sshd = text_sshd.replace("]", "]</b>")
+text_sshd = text_sshd.replace("\n", "<br>")
 
-start = "<b>==================<br>"+subj+"<br>==================<br><br></b>"
-end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>==============================</b>"
+text_user = text_user.replace("[", "<b>[")
+text_user = text_user.replace("]", "]</b>")
+text_user = text_user.replace("\n", "<br>")
+
+start = "<b><big>==================<br>"+subj+"<br>==================</b></big><br><br>"
+end   = "<b><big>===============================<br>"+end1+"<br>"+end2+"<br>===============================</b></big>"  
+
+start_sshd = "<b><u><big>SSHD Events</b></u></bigbig><br><br>"
+start_user = "<b><u><big>Users Events</b></u></bigbig><br><br>"
 
 msg = "\r\n".join([
   "From: " + aux.fromaddr,
@@ -45,7 +60,7 @@ msg = "\r\n".join([
   "Content-type: text/html",
   "Subject: SSH-Alert: "+subj,
   "",
-  start + text + ip_info + end
+  start + start_sshd + text_sshd + start_user + text_user + ip_info + end
   ])
   
 server = smtplib.SMTP(aux.smtp)

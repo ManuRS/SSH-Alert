@@ -6,7 +6,7 @@ def ipInfo(text, html=True):
   ips = re.findall(ip_regex, text)
   ips = list(set(ips))
   if html:
-  	results = '<br><b>==================<br>Detected IP details<br>==================<br></b>'
+  	results = '<b><u><big>Detected IP details</b></u></bigbig><br>'
   else:
   	results = 'Detected IP details:\n'
   for ip in ips:
@@ -20,7 +20,7 @@ def ipInfo(text, html=True):
   	  result = result.replace('}', '')
   	  result = result.replace('"\n', '\n')
   	  if html:
-  	    result = re.sub(r'(ip: '+ip_regex+')', r'<b>*********   \1   *********</b>' ,result)
+  	    result = re.sub(r'(ip: '+ip_regex+')', r'<b>****************   \1   ***************</b>' ,result)
   	    result = result.replace('\n', '<br>')
   	  results = results + result
-  return results+'<br><br>'
+  return results+'<br>'
