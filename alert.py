@@ -72,14 +72,15 @@ subj= h +"h - "+ str(d) + time.strftime("/%m/%Y")
 text = text.replace("\n", "<br>")
 text2 = text2.replace("\n", "<br>")
 
-start = subj+"<br>============================<br><br></b>"
-start2 = subj+"<br>=========================<br><br></b>"
-end = "<b>==============================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>==============================</b>"
+start = subj+"<br>============================<br><br></b></big>"
+start2 = subj+"<br>=========================<br><br></b></big>"
+end = "<b><big>================================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>================================</b></big>"
 
 ########
 #  PASS
 ########
 if text != "":
+ text = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text
  msg = "\r\n".join([
   "From: " + aux.fromaddr,
   "To: " + aux.toaddrs,
@@ -87,7 +88,7 @@ if text != "":
   "Content-type: text/html",
   "Subject: SSH-Alert: Failed password "+subj,
   "",
-  "<b>============================<br>Failed password - " + start + text + ip_info + end
+  "<b><big>============================<br>Failed password - " + start + text + ip_info + end
   ])
  server.sendmail(aux.fromaddr, aux.toaddrs, msg)
  
@@ -96,13 +97,19 @@ if text != "":
 #######################
 
 if text2!="" or len(diff)!=0:
+ text_diff = ""
 
  if text2 == "":
-  text2 = "Nothing about reset on your auth_log file but changes between system_sshd_config and trusted_sshd_config detected.<br>Strange, looks like somebody made changes to the system_sshd_config file but edited the log to hide the server restart (o maybe the restart is pending).<br>Take a look at the differences file.<br><br>"
-
- text_diff = ""
- if len(diff)==0:
-  text_diff = "No changes between system_sshd_config and trusted_sshd_config but exist information about server reset in aux_log.<br>This is normal, means reset was done without changes in the configuration (also somebody could had change both sshd_config).<br><br>"
+  text2 = "Nothing about reset on your auth_log file but changes between system and trusted sshd_config.<br>A) somebody made changes to the sshd_config file but edited the log to hide the server restart<br>B) restart pending<br>Take a look at the differences file.<br><br>"
+  text2 = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text2
+ elif len(diff)==0:
+  text2 = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text2
+  text_diff = "Reset without changes in the sshd_config.<br><br>"
+  text_diff = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text_diff
+ else:
+  text2 = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text2
+  text_diff = "Reset with changes in the sshd_config.<br>Take a look at the differences file.<br><br>"
+  text_diff = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text_diff
 
  msg = MIMEMultipart()
  msg['From'] = aux.fromaddr
@@ -110,7 +117,7 @@ if text2!="" or len(diff)!=0:
  msg['Date'] = formatdate(localtime = True)
  msg['Subject'] = "SSH-Alert: Reset server " + subj
 
- msg.attach( MIMEText("<b>============================<br>Reset server - " + start2 + text2 + text_diff + end, 'HTML') ) 
+ msg.attach( MIMEText("<b><big>=========================<br>Reset server - " + start2 + text2 + text_diff + end, 'HTML') ) 
 
  #File
  part = MIMEBase('application', "octet-stream")
