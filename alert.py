@@ -62,8 +62,7 @@ diff = list(diff)
 if text=="" and text2=="" and len(diff)==0:
  exit() #Today nothing happend
 
-smtp = 'smtp.gmail.com:587' #If you don't use gmail you have to change this setting
-server = smtplib.SMTP(smtp)
+server = smtplib.SMTP(aux.smtp)
 server.ehlo()
 server.starttls()
 server.login(aux.fromaddr,aux.pas)
