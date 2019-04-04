@@ -34,15 +34,15 @@ system_sshd_config     = '/etc/ssh/sshd_config'    # Debian based systems
 
 ### Create cron tasks:
 
-- Open a terminal and write:
+Open a terminal and write:
 
 ```
 sudo crontab -e
 ```
 
-- Select your text editor if is your fisrt time using cron
+Select your text editor if is your fisrt time using cron
 
-- Add this lines:
+Add this lines:
 
 ```
 06 00 * * * python3 /route/dayReport.py
@@ -63,7 +63,7 @@ Change IP details source:
 Go to getIPdata.py line 23 and select one function to call 
 ```
 
-- Default service (or more to come) is not fully decided      
+Note: Default service (or more to come) is not fully decided      
 
 
 ### Tips
