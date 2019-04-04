@@ -12,22 +12,24 @@ If something strange happend last hour you will recive an email
 You have to create a aux.py like this:
 
 ```python
-fromaddr = 'from@server.com'
-toaddrs  = 'to@server.com'
-pas = 'password of fromaddr'
-auth_log = '/route/auth.log'
-trusted_sshd_config = '/route/sshd_backup_name'
-system_sshd_config="/route/sshd_config"
-smtp = 'smtp.sever.com:port'
+fromaddr     = 'from@server.com'
+toaddrs      = 'to@server.com'
+pas          = 'password of fromaddr'
+smtp         = 'smtp.sever.com:port'
+ipstack_com  = '12345678901234567890123456789012' # ipstack.com needs API key
+auth_log     = '/route/auth.log'
+trusted_sshd_config    = '/route/sshd_backup_name'
+system_sshd_config     ="/route/sshd_config"
+
 ```
 
 Examples:
 
 ```python
-auth_log = '/var/log/auth.log' #Debian based systems
-trusted_sshd_config = '/random/route/randname'
-system_sshd_config="/etc/ssh/sshd_config" #Debian based systems
-smtp = 'smtp.gmail.com:587' #GMail
+smtp         = 'smtp.gmail.com:587' # GMail
+auth_log     = '/var/log/auth.log'  # Debian based systems
+trusted_sshd_config    = '/random/route/randname'
+system_sshd_config     = "/etc/ssh/sshd_config"   # Debian based systems
 ```
 
 ### Create cron tasks:

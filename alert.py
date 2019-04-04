@@ -1,16 +1,17 @@
 import time
 import smtplib
 import os
+import difflib
+
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email import encoders
 from email.utils import COMMASPACE, formatdate
-import difflib
 
 import aux
 import getDates as gd
-import ipInfo
+import getIPdata
 
 ########
 # PARSEO
@@ -46,7 +47,7 @@ for line in f:
    text2 += line+"\n"
 
 #ip info
-ip_info = ipInfo.ipInfo(text+text2)
+ip_info = getIPdata.getIPdata(text+text2)
 
 #Diferencias fichero configuración
 diff = difflib.unified_diff(open(aux.system_sshd_config).readlines(), open(aux.trusted_sshd_config).readlines(), n=0)
@@ -62,6 +63,9 @@ diff = list(diff)
 if text=="" and text2=="" and len(diff)==0:
  exit() #Today nothing happend
 
+end1 = "Sent using SSH-Alert:"
+end2 = "https://github.com/manurs/SSH-Alert"
+
 server = smtplib.SMTP(aux.smtp)
 server.ehlo()
 server.starttls()
@@ -74,7 +78,7 @@ text2 = text2.replace("\n", "<br>")
 
 start = subj+"<br>============================<br><br></b></big>"
 start2 = subj+"<br>=========================<br><br></b></big>"
-end = "<b><big>================================<br>Send using SSH-Alert:<br>https://github.com/manurs/SSH-Alert<br>================================</b></big>"
+end   = "<b><big>================================<br>"+end1+"<br>"+end2+"<br>================================<b></big>"  
 
 ########
 #  PASS

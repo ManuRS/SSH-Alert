@@ -3,14 +3,12 @@ import smtplib
 
 import aux
 import getDates as gd
-import ipInfo
+import getIPdata
 
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 from email.utils import COMMASPACE, formatdate
-
 from email import encoders
 
 ########
@@ -34,7 +32,7 @@ for line in f:
   if "COMMAND=" in line and not ("dayReport" in line or "alert" in line):
    text_user += line+"\n"
    
-ip_info = ipInfo.ipInfo(text_sshd)
+ip_info = getIPdata.getIPdata(text_sshd)
 
 ########
 #  ENVIO
@@ -56,7 +54,7 @@ text_user = text_user.replace("]", "]</b>")
 text_user = text_user.replace("\n", "<br>")
 
 start = "<b><big>==================<br>"+subj+"<br>==================</b></big><br><br>"
-end   = "<b><big>===============================<br>"+end1+"<br>"+end2+"<br>===============================</b></big>"  
+end   = "<b><big>================================<br>"+end1+"<br>"+end2+"<br>================================<b></big>"  
 
 start_sshd = "<b><u><big>SSHD Events</b></u></bigbig><br><br>"
 start_user = "<b><u><big>Users Events</b></u></bigbig><br><br>"
