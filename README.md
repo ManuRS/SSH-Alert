@@ -57,6 +57,12 @@ sudo crontab -e
 | http://api.ipstack.com/  | Needs API key and lack of ISP info     | 
 | http://ip-api.com/       | Default and the most complete info     | 
 
+Change IP details source:
+
+```
+Go to getIPdata.py line 23 and select one function to call 
+```
+
 - Default service (or more to come) is not fully decided      
 
 

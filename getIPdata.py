@@ -21,6 +21,8 @@ def getIPdata(text, html=True):
       # Select your service here
       #######
       results = ip_api_com(ip, results, html)
+      #results = ipinfo_io(ip, results, html)
+      #results = ipstack_com(ip, results, html)
 
   return results+'<br>'
 
