@@ -19,7 +19,7 @@ smtp         = 'smtp.sever.com:port'
 ipstack_com  = '12345678901234567890123456789012' # ipstack.com needs API key
 auth_log     = '/route/auth.log'
 trusted_sshd_config    = '/route/sshd_backup_name'
-system_sshd_config     ="/route/sshd_config"
+system_sshd_config     = '/route/sshd_config'
 
 ```
 
@@ -29,7 +29,7 @@ Examples:
 smtp         = 'smtp.gmail.com:587' # GMail
 auth_log     = '/var/log/auth.log'  # Debian based systems
 trusted_sshd_config    = '/random/route/randname'
-system_sshd_config     = "/etc/ssh/sshd_config"   # Debian based systems
+system_sshd_config     = '/etc/ssh/sshd_config'    # Debian based systems
 ```
 
 ### Create cron tasks:
@@ -48,6 +48,17 @@ sudo crontab -e
 06 00 * * * python3 /route/dayReport.py
 02 * * * * python3 /route/alert.py
 ```
+
+### IP details source:
+
+| Name                 | Details |
+|----------------------|-------------------------|
+| https://ipinfo.io/       | Not working in some enviroments        | 
+| http://api.ipstack.com/  | Needs API key and lack of ISP info     | 
+| http://ip-api.com/       | Default and the most complete info     | 
+
+- Default service (or more to come) is not fully decided      
+
 
 ### Tips
 
