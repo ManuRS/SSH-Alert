@@ -21,7 +21,7 @@ d, m, y = gd.getYesterday()
 
 #Para pruebas
 #print(d,m,y)
-#d = d-1
+#d = d+1
 
 text_sshd=""
 text_user=""

@@ -100,51 +100,52 @@ if text != "":
 #  RESET & CONFIG FILE
 #######################
 
-if text2!="" or len(diff)!=0:
- text_diff = ""
+if text2=="" and len(diff)==0:
+  # No hay ni mensaje ni diferencias
+  server.quit()
+  exit()
 
- if text2 == "":
-  text2 = "Nothing about reset on your auth_log file but changes between system and trusted sshd_config.<br>A) somebody made changes to the sshd_config file but edited the log to hide the server restart<br>B) restart pending<br>Take a look at the differences file.<br><br>"
-  text2 = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text2
- elif len(diff)==0:
-  text2 = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text2
-  text_diff = "Reset without changes in the sshd_config.<br><br>"
-  text_diff = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text_diff
- else:
-  text2 = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text2
+text_diff = ""
+
+if text2 == "":
+  text_diff = "Nothing about reset on your auth_log file but changes between system and trusted sshd_config.<br>A) somebody made changes to the sshd_config file but edited the log to hide the server restart<br>B) restart pending<br>Take a look at the differences file.<br><br>"
+elif len(diff)==0:
+  text_diff = "Reset without changes in the sshd_config.<br>(This only means system and trusted sshd_config have no diferences).<br><br>"
+else:
   text_diff = "Reset with changes in the sshd_config.<br>Take a look at the differences file.<br><br>"
-  text_diff = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text_diff
 
- msg = MIMEMultipart()
- msg['From'] = aux.fromaddr
- msg['To'] = aux.toaddrs
- msg['Date'] = formatdate(localtime = True)
- msg['Subject'] = "SSH-Alert: Reset server " + subj
+text2 = "<b><u><big>SSHD Events</b></u></bigbig><br><br>" + text2
+text_diff = "<b><u><big>Attention!!</b></u></bigbig><br><br>" + text_diff
 
- msg.attach( MIMEText("<b><big>=========================<br>Reset server - " + start2 + text2 + text_diff + end, 'HTML') ) 
+msg = MIMEMultipart()
+msg['From'] = aux.fromaddr
+msg['To'] = aux.toaddrs
+msg['Date'] = formatdate(localtime = True)
+msg['Subject'] = "SSH-Alert: Reset server " + subj
 
- #File
- part = MIMEBase('application', "octet-stream")
- part.set_payload( open(aux.system_sshd_config,"rb").read() )
- encoders.encode_base64(part)
- part.add_header('Content-Disposition', 'attachment; filename="system_sshd_config.txt"')
- msg.attach(part) 
+msg.attach( MIMEText("<b><big>=========================<br>Reset server - " + start2 + text2 + text_diff + end, 'HTML') ) 
 
- if len(diff)!=0:
-   #File
-   part = MIMEBase('application', "octet-stream")
-   part.set_payload( open(aux.trusted_sshd_config,"rb").read() )
-   encoders.encode_base64(part)
-   part.add_header('Content-Disposition', 'attachment; filename="trusted_sshd_config.txt"')
-   msg.attach(part) 
+#File
+part = MIMEBase('application', "octet-stream")
+part.set_payload( open(aux.system_sshd_config,"rb").read() )
+encoders.encode_base64(part)
+part.add_header('Content-Disposition', 'attachment; filename="system_sshd_config.txt"')
+msg.attach(part) 
 
-   #File
-   part = MIMEBase('application', "octet-stream")
-   part.set_payload('\n'.join(diff))
-   encoders.encode_base64(part)
-   part.add_header('Content-Disposition', 'attachment; filename="diff_sshd_config.txt"')
-   msg.attach(part) 
+if len(diff)!=0:
+  #File
+  part = MIMEBase('application', "octet-stream")
+  part.set_payload( open(aux.trusted_sshd_config,"rb").read() )
+  encoders.encode_base64(part)
+  part.add_header('Content-Disposition', 'attachment; filename="trusted_sshd_config.txt"')
+  msg.attach(part) 
 
- server.sendmail(aux.fromaddr, aux.toaddrs, msg.as_string())
+  #File
+  part = MIMEBase('application', "octet-stream")
+  part.set_payload('\n'.join(diff))
+  encoders.encode_base64(part)
+  part.add_header('Content-Disposition', 'attachment; filename="diff_sshd_config.txt"')
+  msg.attach(part) 
 
+server.sendmail(aux.fromaddr, aux.toaddrs, msg.as_string())
 server.quit()
