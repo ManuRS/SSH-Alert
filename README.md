@@ -71,3 +71,22 @@ Note: Default service (or more to come) is not fully decided
 - If is possible don't allow root users to connect by SSH
 
 - If is possible run SSH-Alert from a user with no SSH connections allowed
+
+### Crontab help
+
+```
+ ┌───────────────────────────  minute (0 - 59)
+ │     ┌─────────────────────  hour (0 - 23)
+ │     │     ┌───────────────  day of month (1 - 31)
+ │     │     │     ┌─────────  month (1 - 12)
+ │     │     │     │     ┌───  day of week (0 - 6 => Sunday - Saturday, or
+ │     │     │     │     │                  1 - 7 => Monday - Sunday, or
+ ↓     ↓     ↓     ↓     ↓                  Sun, Mon, ..., Sat)
+ *     *     *     *     *     command
+ min   hour  day   mon   week  command
+ ```
+ ```
+ E.g.:
+ 15 09 * * Fri,Sat,Sun command
+ - command every Friday, Saturday, and Sunday at 9:15.
+ ```
