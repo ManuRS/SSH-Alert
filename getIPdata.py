@@ -16,7 +16,15 @@ def getIPdata(text, html=True):
     results = 'Detected IP details:\n'
 
   for ip in ips:
-    if ip != "0.0.0.0":
+    if ip_is_private(ip)==True:
+      ######
+      # Private range message
+      ######
+      if html==True:
+        results += '<br><b>****************   ' + ip + '   ***************</b><br>'
+        results += 'Private range, this attempt was made from the internal network <br>'
+    
+    elif ip != "0.0.0.0":
       #######
       # Select your service here
       #######
@@ -25,6 +33,24 @@ def getIPdata(text, html=True):
       #results = ipstack_com(ip, results, html)
 
   return results+'<br>'
+
+#######################
+# Private range check #
+#######################
+def ip_is_private(ip):
+  ret = False
+  numbers = ip.split('.')
+  
+  if numbers[0]=='10':
+    ret=True
+  elif numbers[0]=='172' and int(numbers[1])>=16 and int(numbers[1])<=31:
+    ret=True
+  elif numbers[0]=='192' and numbers[1]=='168':
+    ret=True
+  elif numbers[0]=='169' and numbers[1]=='254':
+    ret=True
+  
+  return ret
 
 #################
 #   ipinfo.io   #
@@ -78,6 +104,7 @@ def ip_api_com(ip, results, html=True):
   url = "http://ip-api.com/json/" + ip
   result = requests.get(url)
   result = result.json()
+  print(result)
 
   if html:
     loc = str(result['lat'])+','+str(result['lon'])
