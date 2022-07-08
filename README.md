@@ -37,7 +37,7 @@ Using GMail:
 - At least for now, is possible to create a specific password for 3rd party apps (different from your main password).
 - For that, you need to enable 2FA in your Google Account and then create this app password.
 - Finally, use this password in the variable "pas" on "aux.py" as usual.
-- Check Google oficial details [here](https://support.google.com/accounts/answer/6010255) and [here](https://support.google.com/accounts/answer/185833)
+- Check Google oficial details [here](https://support.google.com/accounts/answer/6010255) and [here](https://support.google.com/accounts/answer/185833).
 - Since this method can be dropped by Google, we recommend using another email provider.
 - If Google makes the use of OAuth mandatory, there are no plans to support it.
 
