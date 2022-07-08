@@ -28,9 +28,18 @@ Examples:
 ```python
 smtp         = 'smtp.gmail.com:587' # GMail
 auth_log     = '/var/log/auth.log'  # Debian based systems
-trusted_sshd_config    = '/random/route/randname'
+trusted_sshd_config    = '/random/route/randname'  # Where you want
 system_sshd_config     = '/etc/ssh/sshd_config'    # Debian based systems
 ```
+
+Using GMail:
+- Since May 30, 2022, Google no longer supports the use of an account and password directly to login in 3rd party apps.
+- At least for now, is possible to create a specific password for 3rd party apps (different from your main password).
+- For that, you need to enable 2FA in your Google Account and then create this app password.
+- Finally, use this password in the variable "pas" on "aux.py" as usual.
+- Check Google oficial details [here](https://support.google.com/accounts/answer/6010255) and [here](https://support.google.com/accounts/answer/185833)
+- Since this method can be dropped by Google, we recommend using another email provider.
+- If Google makes the use of OAuth mandatory, there are no plans to support it.
 
 ### Create cron tasks:
 
